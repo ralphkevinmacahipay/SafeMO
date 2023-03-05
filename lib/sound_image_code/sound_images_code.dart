@@ -1,0 +1,16 @@
+const String setMan = "assets/images/sit.png";
+const String backgroundImage = "assets/Background/background.png";
+const String logo = "assets/icons/safe_mo_logo.png";
+const String splashImage = "assets/Background/background.png";
+const String threeDots = "assets/Three_dots/3_dots.svg";
+const String personIcon = "assets/images/personIcon.svg";
+const String captureIcon = "assets/icons/capture_icon.png";
+const String currentLocationSVG = "assets/images/currentLoc.svg";
+const String soundAlarm = "assets/sound/Alarm.wav";
+const String dashboardIcon = "assets/icons/menu_dashbord.svg";
+const String cameraIcon = "assets/icons/camera.png";
+const String locIcon = "assets/icons/map.png";
+const String findLoc = "assets/icons/find_loc.png";
+const String findDes = "assets/icons/destination.png";
+const String setDesIcon = "assets/icons/icon_distance.png";
+const String safeLOGO = "assets/icons/safe_mo_logo.png";
