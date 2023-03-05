@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "491153662164",
+    "project_id": "marine-bebop-361716",
+    "storage_bucket": "marine-bebop-361716.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:491153662164:android:d38843e0360bb18b4f1b41",
+        "android_client_info": {
+          "package_name": "com.Macradev.accounts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "491153662164-4rjr9nptaj7jiumans0mej2ksjbj4568.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Macradev.accounts",
+            "certificate_hash": "224dc9b4f6f1165b48d0cf91063bf6f364df6c4d"
+          }
+        },
+        {
+          "client_id": "491153662164-n4om29pcug7qkbc6j106sf90deg3i8nf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_JzZ8GlvbuWpFVgN84Nqbn9TSzXfzZtE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "491153662164-n4om29pcug7qkbc6j106sf90deg3i8nf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "491153662164-dedlvmsduklird47k103ehv3kdv23f60.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Macradev.accounts"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
