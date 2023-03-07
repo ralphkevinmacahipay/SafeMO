@@ -35,6 +35,9 @@ import '../user_service_type/user_type_enum.dart';
 class LocationServiceHome extends ChangeNotifier {
   // ********************* initialization *********************
 
+  bool kCountOn = false;
+  int? kTimeSec;
+
   // is Run in the background
   bool isSuccessRun = false;
   // Bool to ask permission
@@ -54,15 +57,17 @@ class LocationServiceHome extends ChangeNotifier {
   String timeOfArrivalDisplay = "waiting";
   Distance? _distance;
 
-  // initial value: drop down for unit
-  TypeOfUnitEnum initValUnit = TypeOfUnitEnum.km;
-
   //List: for type of unit
   final List<TypeOfUnitEnum> itemsUnit = [TypeOfUnitEnum.km, TypeOfUnitEnum.m];
 
   // set distance : pag na reach ako set na distance saka lang aalarm
 
-  double? distanceInputValue, kDistanceInKm, timeOfArrival, initTimeOfArrival;
+  double? distanceInputValue, kDistanceInKm;
+
+  int? timeOfArrival, initTimeOfArrival;
+
+  // display: distance in UI
+  String showDistance = "";
 
   // enum for type of user
   UserTypeEnum? userType;
@@ -109,6 +114,11 @@ class LocationServiceHome extends ChangeNotifier {
   LocationServiceHome(this._context);
 
   //********************* getter : pang expose sa UI *********************
+
+  bool get getCountOn => kCountOn;
+
+  int? get getTimeSec => kTimeSec;
+  String get getShowDistance => showDistance;
   bool? get getIsSuccesRun => isSuccessRun;
 
   bool get getIshasPermissionBack => isHasPermissionBack;
@@ -122,17 +132,16 @@ class LocationServiceHome extends ChangeNotifier {
 
   bool get getisActivateStartBTN => isActivateStartBTN;
   bool get getIskTOA => iskTOA;
-  double get getInitTimeOfArrival => initTimeOfArrival!;
+  int get getInitTimeOfrrival => initTimeOfArrival!;
 
   String get getTimeOfArrivalDisplay => timeOfArrivalDisplay;
 
-  double get getTimeOfArrival => timeOfArrival!;
+  int get getTimeOfArrival => timeOfArrival!;
 
   bool get getAlarmON => isAlarmON;
 
   Distance get getDistance => _distance!;
 
-  TypeOfUnitEnum get getInitValUnit => initValUnit;
   double? get getDisInputKm => distanceInputValue;
   UserTypeEnum? get getUserType => userType;
 
@@ -158,6 +167,23 @@ class LocationServiceHome extends ChangeNotifier {
   bool get getIsFirstTimeOpen => isFirstTimeOpen;
 
   // ********************* setter : pang set value *********************
+  setTimeSec({required int time, required String typeOfTime}) {
+    switch (typeOfTime) {
+      case "mins":
+        kTimeSec = time * 60;
+    }
+    notifyListeners();
+  }
+
+  setCountOn(bool stateCount) {
+    kCountOn = stateCount;
+    notifyListeners();
+  }
+
+  setShowDistace(String newDistance) {
+    showDistance = newDistance;
+    notifyListeners();
+  }
 
   setIsSuccesRun() async {
     isSuccessRun = await FlutterBackground.enableBackgroundExecution();
@@ -207,7 +233,7 @@ class LocationServiceHome extends ChangeNotifier {
     notifyListeners();
   }
 
-  setInitTimeOfArrival(double setinitTimeOfArrival) {
+  setInitTimeOfArrival(int setinitTimeOfArrival) {
     initTimeOfArrival = setinitTimeOfArrival;
     notifyListeners();
   }
@@ -323,12 +349,24 @@ class LocationServiceHome extends ChangeNotifier {
             response.data['rows'][0]['elements'][0]['distance']['text'];
 
         // to get the value of the duration and  distance
-        timeOfArrival = getOnlyNumber(duration);
+        timeOfArrival = int.parse(duration
+            .toString()
+            .replaceAll(RegExp(r'[^0-9]'), '')); //getOnlyNumber(duration);
+        String mins = duration.split(' ')[1];
+        setCountOn(true);
+        setTimeSec(time: timeOfArrival!, typeOfTime: mins);
+
+        // String kTypeOfTime =
         kDistanceInKm = getOnlyNumber(distance);
-        int convertTimeOfArrival = timeOfArrival!.toInt();
+        setShowDistace(distance);
+
+        devtools.log(distance);
+
+        devtools.log("$duration here");
+        devtools.log(timeOfArrival.toString());
 
         if (!getIskTOA) {
-          setInitTOA(convertTimeOfArrival);
+          setInitTOA(timeOfArrival);
 
           devtools.log("The value of getIskTOA  : $getIskTOA before");
           setInitTimeOfArrival(timeOfArrival!);
@@ -699,8 +737,9 @@ class LocationServiceHome extends ChangeNotifier {
 
   start() {
     _duration = Duration(
-        minutes: getInitTimeOfArrivalCount!
-            .floor()); // Alarm Initial travel time not done
+        minutes:
+            getInitTimeOfArrivalCount!); // Alarm Initial travel time not done
+    devtools.log("code is here");
     _timer = Timer.periodic(_duration!, (timer) {
       _duration = _duration! - const Duration(seconds: 1);
       devtools.log("COUNT DOWN : ${_duration!.inSeconds}");
@@ -790,5 +829,60 @@ class NavigatorLoadingService {
   chooseUser() {
     loading();
     Navigator.of(context).pushNamed(chooseUserPageRoute);
+  }
+}
+
+class CountDownTimer extends StatefulWidget {
+  final int kTime;
+  final VoidCallback onFinished;
+  const CountDownTimer({
+    super.key,
+    required this.kTime,
+    required this.onFinished,
+  });
+
+  @override
+  State<CountDownTimer> createState() => _CountDownTimerState();
+}
+
+class _CountDownTimerState extends State<CountDownTimer> {
+  late Timer _timer;
+  int _timeLeft = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _timeLeft = widget.kTime;
+    startTimer();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_timeLeft < 1) {
+          _timer.cancel();
+          widget.onFinished();
+        } else {
+          _timeLeft--;
+        }
+      });
+    });
+  }
+
+  String get timerDisplay {
+    int minutes = _timeLeft ~/ 60;
+    int seconds = _timeLeft % 60;
+    return '$minutes:${seconds.toString().padLeft(2, '0')}';
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(timerDisplay);
   }
 }

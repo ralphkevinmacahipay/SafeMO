@@ -15,7 +15,7 @@ import 'package:showcaseview/showcaseview.dart';
 import '../../../../sound_image_code/sound_images_code.dart';
 import '../../../../utility/error_dialog.dart';
 import 'navigationa_drawer/navigation_drawer.dart';
-import 'services_homepage.dart' show LocationServiceHome;
+import 'services_homepage.dart' show CountDownTimer, LocationServiceHome;
 
 class CommuterPage extends StatefulWidget {
   const CommuterPage({super.key});
@@ -202,6 +202,15 @@ class _CommuterPageState extends State<CommuterPage> {
                             ),
                           ),
 
+                          servicesCommuter.getCountOn
+                              ? CountDownTimer(
+                                  kTime: servicesCommuter.getTimeSec!,
+                                  onFinished: () {
+                                    Navigator.pushNamed(
+                                        context, alarmScreenRoute);
+                                  })
+                              : const Text("00:00"),
+
                           // TODO : DISPLAY DISTANCE
                           Positioned(
                             top: SizeConfig.blockY! * 25,
@@ -228,7 +237,7 @@ class _CommuterPageState extends State<CommuterPage> {
                                   : null,
                               child: servicesCommuter.getShowDisTance
                                   ? Text(
-                                      "${servicesCommuter.kDistanceInKm?.toStringAsFixed(2)} km",
+                                      servicesCommuter.showDistance,
                                       textAlign: TextAlign.justify,
                                       style: kPoppinsSemiBold.copyWith(
                                           color: kDarkBlueLight),
