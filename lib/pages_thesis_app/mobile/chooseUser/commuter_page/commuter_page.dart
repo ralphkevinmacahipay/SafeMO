@@ -201,15 +201,18 @@ class _CommuterPageState extends State<CommuterPage> {
                                   : null,
                             ),
                           ),
-
-                          servicesCommuter.getCountOn
-                              ? CountDownTimer(
-                                  kTime: servicesCommuter.getTimeSec!,
-                                  onFinished: () {
-                                    Navigator.pushNamed(
-                                        context, alarmScreenRoute);
-                                  })
-                              : const Text("00:00"),
+                          // TODO: Count Down
+                          Visibility(
+                            visible: false,
+                            child: servicesCommuter.getCountOn
+                                ? CountDownTimer(
+                                    kTime: servicesCommuter.getTimeSec!,
+                                    onFinished: () {
+                                      Navigator.pushNamed(
+                                          context, alarmScreenRoute);
+                                    })
+                                : const Text("00:00"),
+                          ),
 
                           // TODO : DISPLAY DISTANCE
                           Positioned(

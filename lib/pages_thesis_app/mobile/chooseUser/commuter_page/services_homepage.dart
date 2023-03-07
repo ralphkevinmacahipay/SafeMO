@@ -171,6 +171,10 @@ class LocationServiceHome extends ChangeNotifier {
     switch (typeOfTime) {
       case "mins":
         kTimeSec = time * 60;
+        break;
+      case "hours":
+        kTimeSec = time * 60 * 60;
+        break;
     }
     notifyListeners();
   }
