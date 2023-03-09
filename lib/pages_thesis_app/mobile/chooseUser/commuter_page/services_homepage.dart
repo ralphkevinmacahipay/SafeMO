@@ -34,7 +34,7 @@ import '../user_service_type/user_type_enum.dart';
 */
 class LocationServiceHome extends ChangeNotifier {
   // ********************* initialization *********************
-
+  String? _typeOfTime;
   bool kCountOn = false;
   int? kTimeSec;
 
@@ -114,6 +114,8 @@ class LocationServiceHome extends ChangeNotifier {
   LocationServiceHome(this._context);
 
   //********************* getter : pang expose sa UI *********************
+
+  String? get getTypeOfTime => _typeOfTime;
 
   bool get getCountOn => kCountOn;
 
@@ -356,9 +358,9 @@ class LocationServiceHome extends ChangeNotifier {
         timeOfArrival = int.parse(duration
             .toString()
             .replaceAll(RegExp(r'[^0-9]'), '')); //getOnlyNumber(duration);
-        String mins = duration.split(' ')[1];
+        _typeOfTime = duration.split(' ')[1];
+        setTimeSec(time: timeOfArrival!, typeOfTime: _typeOfTime!);
         setCountOn(true);
-        setTimeSec(time: timeOfArrival!, typeOfTime: mins);
 
         // String kTypeOfTime =
         kDistanceInKm = getOnlyNumber(distance);
@@ -837,12 +839,14 @@ class NavigatorLoadingService {
 }
 
 class CountDownTimer extends StatefulWidget {
+  final bool onAlarm;
   final int kTime;
   final VoidCallback onFinished;
   const CountDownTimer({
     super.key,
     required this.kTime,
     required this.onFinished,
+    required this.onAlarm,
   });
 
   @override
@@ -850,6 +854,7 @@ class CountDownTimer extends StatefulWidget {
 }
 
 class _CountDownTimerState extends State<CountDownTimer> {
+  bool isAlarm = false;
   late Timer _timer;
   int _timeLeft = 0;
 
@@ -857,6 +862,8 @@ class _CountDownTimerState extends State<CountDownTimer> {
   void initState() {
     super.initState();
     _timeLeft = widget.kTime;
+    // isAlarm = widget.onAlarm;
+
     startTimer();
   }
 

@@ -203,10 +203,11 @@ class _CommuterPageState extends State<CommuterPage> {
                           ),
                           // TODO: Count Down
                           Visibility(
-                            visible: false,
+                            visible: true, // TODO  TURN IT INTO FALSE
                             child: servicesCommuter.getCountOn
                                 ? CountDownTimer(
-                                    kTime: servicesCommuter.getTimeSec!,
+                                    onAlarm: servicesCommuter.getAlarmON,
+                                    kTime: 5, //servicesCommuter.getTimeSec!
                                     onFinished: () {
                                       Navigator.pushNamed(
                                           context, alarmScreenRoute);
