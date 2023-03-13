@@ -34,6 +34,8 @@ import '../user_service_type/user_type_enum.dart';
 */
 class LocationServiceHome extends ChangeNotifier {
   // ********************* initialization *********************
+  List<String> itemList = const ['200 meters', '500 meters', '1 kilometer'];
+  String _itemDistance = "500 meters";
   String? _typeOfTime;
   bool kCountOn = false;
   int? kTimeSec;
@@ -114,6 +116,8 @@ class LocationServiceHome extends ChangeNotifier {
   LocationServiceHome(this._context);
 
   //********************* getter : pang expose sa UI *********************
+  List<String> get getListItem => itemList;
+  String get getItemDistance => _itemDistance;
 
   String? get getTypeOfTime => _typeOfTime;
 
@@ -169,6 +173,11 @@ class LocationServiceHome extends ChangeNotifier {
   bool get getIsFirstTimeOpen => isFirstTimeOpen;
 
   // ********************* setter : pang set value *********************
+  setItemDistance(String itemDistance) {
+    _itemDistance = itemDistance;
+    notifyListeners();
+  }
+
   setTimeSec({required int time, required String typeOfTime}) {
     switch (typeOfTime) {
       case "mins":
@@ -676,7 +685,7 @@ class LocationServiceHome extends ChangeNotifier {
 
   arrivedCallBack() {
     setIsActivateArrivedBTN(false);
-    setIsActivateStartBTN(true);
+    setIsActivateStartBTN(false);
     showRerscuerDialog(
         getContext, "You've Safely arrived to your destination", "Great!!!");
     cancelStream();
@@ -895,5 +904,32 @@ class _CountDownTimerState extends State<CountDownTimer> {
   @override
   Widget build(BuildContext context) {
     return Text(timerDisplay);
+  }
+}
+
+class DropDownTriggersAlarm extends StatelessWidget {
+  final List<String> items;
+  final String selectedItem;
+  final void Function(String?)? onChanged;
+
+  const DropDownTriggersAlarm({
+    Key? key,
+    required this.items,
+    required this.selectedItem,
+    required this.onChanged,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      value: selectedItem,
+      onChanged: onChanged,
+      items: items.map((String item) {
+        return DropdownMenuItem<String>(
+          value: item,
+          child: Text(item),
+        );
+      }).toList(),
+    );
   }
 }

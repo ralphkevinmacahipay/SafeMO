@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:provider/provider.dart';
+import 'package:quickalert/quickalert.dart';
 import 'package:showcaseview/showcaseview.dart';
-
+import 'dart:developer' as devtools show log;
 import '../../../../sound_image_code/sound_images_code.dart';
 import '../../../../utility/error_dialog.dart';
 import 'navigationa_drawer/navigation_drawer.dart';
-import 'services_homepage.dart' show CountDownTimer, LocationServiceHome;
+import 'services_homepage.dart'
+    show CountDownTimer, DropDownTriggersAlarm, LocationServiceHome;
 
 class CommuterPage extends StatefulWidget {
   const CommuterPage({super.key});
@@ -151,8 +153,46 @@ class _CommuterPageState extends State<CommuterPage> {
                               onTap: () {
                                 // servicesCommuter.cancelStream(); TODO mush have this line
 
-                                servicesCommuter
-                                    .ditanceFromArrival(_controllerInputDes);
+                                // servicesCommuter
+                                //     .ditanceFromArrival(_controllerInputDes);
+                                QuickAlert.show(
+                                  onConfirmBtnTap: () {
+                                    servicesCommuter
+                                        .setIsActivateStartBTN(true);
+                                    devtools.log(servicesCommuter
+                                        .getItemDistance
+                                        .toString());
+
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
+                                    QuickAlert.show(
+                                        context: context,
+                                        type: QuickAlertType.loading,
+                                        autoCloseDuration:
+                                            const Duration(seconds: 3));
+                                  },
+                                  title: "",
+                                  context: context,
+                                  type: QuickAlertType.info,
+                                  widget: Column(
+                                    children: [
+                                      Text(
+                                          "How far from your destination would you like the alarm to start?",
+                                          textAlign: TextAlign.center,
+                                          style: kPoppinsSemiBold.copyWith(
+                                              fontSize: 20)),
+                                      DropDownTriggersAlarm(
+                                        onChanged: (itemDistance) {
+                                          servicesCommuter
+                                              .setItemDistance(itemDistance!);
+                                        },
+                                        selectedItem:
+                                            servicesCommuter.getItemDistance,
+                                        items: servicesCommuter.getListItem,
+                                      ),
+                                    ],
+                                  ),
+                                );
                               },
                               child: Showcase(
                                   key: _three,
@@ -203,11 +243,11 @@ class _CommuterPageState extends State<CommuterPage> {
                           ),
                           // TODO: Count Down
                           Visibility(
-                            visible: true, // TODO  TURN IT INTO FALSE
+                            visible: false, // TODO  TURN IT INTO FALSE
                             child: servicesCommuter.getCountOn
                                 ? CountDownTimer(
                                     onAlarm: servicesCommuter.getAlarmON,
-                                    kTime: 5, //servicesCommuter.getTimeSec!
+                                    kTime: servicesCommuter.getTimeSec!,
                                     onFinished: () {
                                       Navigator.pushNamed(
                                           context, alarmScreenRoute);
