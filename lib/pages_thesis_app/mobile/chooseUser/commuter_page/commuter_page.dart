@@ -157,6 +157,8 @@ class _CommuterPageState extends State<CommuterPage> {
                                 //     .ditanceFromArrival(_controllerInputDes);
                                 QuickAlert.show(
                                   onConfirmBtnTap: () {
+                                    devtools.log(
+                                        "${servicesCommuter.getItemIntDistance} here is the code ");
                                     servicesCommuter
                                         .setIsActivateStartBTN(true);
                                     devtools.log(servicesCommuter

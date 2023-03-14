@@ -34,11 +34,13 @@ import '../user_service_type/user_type_enum.dart';
 */
 class LocationServiceHome extends ChangeNotifier {
   // ********************* initialization *********************
+
   List<String> itemList = const ['200 meters', '500 meters', '1 kilometer'];
+
   String _itemDistance = "500 meters";
   String? _typeOfTime;
   bool kCountOn = false;
-  int? kTimeSec;
+  int? kTimeSec, itemIntDistance;
 
   // is Run in the background
   bool isSuccessRun = false;
@@ -116,6 +118,7 @@ class LocationServiceHome extends ChangeNotifier {
   LocationServiceHome(this._context);
 
   //********************* getter : pang expose sa UI *********************
+  int get getItemIntDistance => itemIntDistance!;
   List<String> get getListItem => itemList;
   String get getItemDistance => _itemDistance;
 
@@ -173,7 +176,33 @@ class LocationServiceHome extends ChangeNotifier {
   bool get getIsFirstTimeOpen => isFirstTimeOpen;
 
   // ********************* setter : pang set value *********************
+
+  String getOnlyString(String duration) {
+    _typeOfTime = duration.split(' ')[1];
+
+    return _typeOfTime!;
+  }
+
+  int getNumberOnly(duration) {
+    timeOfArrival =
+        int.parse(duration.toString().replaceAll(RegExp(r'[^0-9]'), ''));
+    return timeOfArrival!;
+  }
+
   setItemDistance(String itemDistance) {
+    int intDistance =
+        int.parse(itemDistance.toString().replaceAll(RegExp(r'[^0-9]'), ''));
+    String stringDistance = itemDistance.split(' ')[1];
+
+    switch (stringDistance) {
+      case "meters":
+        itemIntDistance = intDistance;
+        break;
+      case "kilometers":
+        itemIntDistance = intDistance * 1000;
+        break;
+    }
+
     _itemDistance = itemDistance;
     notifyListeners();
   }
@@ -364,11 +393,10 @@ class LocationServiceHome extends ChangeNotifier {
             response.data['rows'][0]['elements'][0]['distance']['text'];
 
         // to get the value of the duration and  distance
-        timeOfArrival = int.parse(duration
-            .toString()
-            .replaceAll(RegExp(r'[^0-9]'), '')); //getOnlyNumber(duration);
-        _typeOfTime = duration.split(' ')[1];
-        setTimeSec(time: timeOfArrival!, typeOfTime: _typeOfTime!);
+        //getOnlyNumber(duration);
+
+        setTimeSec(
+            time: getNumberOnly(duration), typeOfTime: getOnlyString(duration));
         setCountOn(true);
 
         // String kTypeOfTime =
