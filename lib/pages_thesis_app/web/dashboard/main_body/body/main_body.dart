@@ -288,41 +288,6 @@ class _RowAdminState extends State<RowAdmin> {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        TextButton(
-                          onPressed: () async {
-                            recordModel.uid = servicesHistory.getuserID;
-                            recordModel.nameUser = nameUserController.text;
-                            recordModel.description =
-                                descriptionController.text;
-                            recordModel.scene = sceneController.text;
-                            recordModel.time = timeController.text;
-                            recordModel.rescuer = rescuerController.text;
-                            QuickAlert.show(
-                              width: 500,
-                              autoCloseDuration: const Duration(seconds: 3),
-                              context: context,
-                              type: QuickAlertType.loading,
-                              title: 'Loading',
-                              text: 'Saving Fake Report',
-                            );
-
-                            await firebaseFirestore
-                                .collection("fake_report")
-                                .doc(recordModel.uid)
-                                .set(recordModel.toMap());
-
-                            Fluttertoast.showToast(
-                              fontSize: 20,
-                              msg: "Added Succesfully!",
-                            );
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text(
-                            "Fake Report",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        )
                       ],
                     )
                   ],

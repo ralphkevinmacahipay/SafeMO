@@ -46,14 +46,6 @@ class SideMenu extends StatelessWidget {
               title: "Report History",
             ),
             DrawerListTile(
-              image: Icons.warning_rounded,
-              press: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                    fakeReportPageRoute, (route) => false);
-              },
-              title: "Fake Reports",
-            ),
-            DrawerListTile(
               image: Icons.logout_rounded,
               press: () async {
                 await AuthService.firebase().logout();

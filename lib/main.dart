@@ -4,7 +4,6 @@ import 'package:accounts/pages_thesis_app/mobile/chooseUser/commuter_page/servic
 import 'package:accounts/pages_thesis_app/mobile/three_dot_pages/contactPerson.dart';
 import 'package:accounts/pages_thesis_app/mobile/three_dot_pages/profile.dart';
 import 'package:accounts/pages_thesis_app/web/admin_login.dart';
-import 'package:accounts/pages_thesis_app/web/fake_report/fake_report.dart';
 import 'package:accounts/pages_thesis_app/web/user_location/services_report_history.dart';
 import 'package:accounts/pages_thesis_app/web/user_location/user_location.dart';
 import 'package:accounts/pages_thesis_app/web/web_home.dart';
@@ -86,7 +85,6 @@ class MyApp extends StatelessWidget {
         incidentReportPageRoute: (context) => const IncidentReport(),
         updatedHomePageRoute: (context) => const CommuterPage(),
         alarmScreenRoute: (context) => CountdownPage(),
-        fakeReportPageRoute: (context) => const FakeReport(),
       },
     );
   }
