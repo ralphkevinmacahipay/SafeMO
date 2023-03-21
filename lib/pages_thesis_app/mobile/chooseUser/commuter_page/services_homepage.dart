@@ -41,6 +41,7 @@ class LocationServiceHome extends ChangeNotifier {
   String? _typeOfTime;
   bool kCountOn = false;
   int? kTimeSec, itemIntDistance;
+  double? kDistanceInKM;
 
   // is Run in the background
   bool isSuccessRun = false;
@@ -118,6 +119,7 @@ class LocationServiceHome extends ChangeNotifier {
   LocationServiceHome(this._context);
 
   //********************* getter : pang expose sa UI *********************
+  double get getkDistanceInKM => kDistanceInKM!;
   int get getItemIntDistance => itemIntDistance!;
   List<String> get getListItem => itemList;
   String get getItemDistance => _itemDistance;
@@ -172,6 +174,7 @@ class LocationServiceHome extends ChangeNotifier {
   LatLng get getDesPosition => destinationPos;
   bool get getLocationResult => isLocationOpen;
   bool get getShowDisTance => isShowDistance;
+
   bool get getRequestPermissionLoc => isRequestPermissionLoc;
   bool get getIsFirstTimeOpen => isFirstTimeOpen;
 
@@ -198,13 +201,12 @@ class LocationServiceHome extends ChangeNotifier {
       case "meters":
         itemIntDistance = intDistance;
         break;
-      case "kilometers":
+      case "kilometer":
         itemIntDistance = intDistance * 1000;
         break;
     }
 
     _itemDistance = itemDistance;
-    notifyListeners();
   }
 
   setTimeSec({required int time, required String typeOfTime}) {
@@ -391,6 +393,14 @@ class LocationServiceHome extends ChangeNotifier {
             response.data['rows'][0]['elements'][0]['duration']['text'];
         var distance =
             response.data['rows'][0]['elements'][0]['distance']['text'];
+        devtools.log("$distance this is distance");
+
+        // kDistanceInKM =
+        //     double.parse(distance.toString().replaceAll("[^\\d.]+", ""));
+
+        double value = double.parse(distance.split(" ")[0]);
+
+        devtools.log("$value new here after the");
 
         // to get the value of the duration and  distance
         //getOnlyNumber(duration);

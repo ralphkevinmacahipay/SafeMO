@@ -283,7 +283,7 @@ class _CommuterPageState extends State<CommuterPage> {
                                   : null,
                               child: servicesCommuter.getShowDisTance
                                   ? Text(
-                                      servicesCommuter.showDistance,
+                                      servicesCommuter.getShowDistance,
                                       textAlign: TextAlign.justify,
                                       style: kPoppinsSemiBold.copyWith(
                                           color: kDarkBlueLight),
