@@ -444,13 +444,6 @@ class LocationServiceHome extends ChangeNotifier {
     }
   }
 
-  alarmTrigger() {}
-
-  compareDistance() {
-    devtools.log(
-        " The current distance is : $_distance and the expected distance is $getDisInputKm  other: $getkDistanceInKm");
-  }
-
   setDistanceInput(String setDistanceVal) {
     distanceInputValue = double.parse(setDistanceVal) / 1000;
 
@@ -593,7 +586,7 @@ class LocationServiceHome extends ChangeNotifier {
               latitude,
               longitude,
             ),
-            zoom: 15)));
+            zoom: 10)));
   }
 
   getLatLngStream() async {
@@ -709,6 +702,7 @@ class LocationServiceHome extends ChangeNotifier {
           // TODO : CONDITIONS THAT TRIGGERS THE ALARM
           if (getDisInputKm! > getkDistanceInKm! &&
               initTimeOfArrival! < timeOfArrival!) {
+            devtools.log("ALARM IS ON");
             setAlarmOn(true); // to activate the alarm
           }
         }
@@ -945,12 +939,12 @@ class _CountDownTimerState extends State<CountDownTimer> {
   }
 }
 
-class DropDownTriggersAlarm extends StatelessWidget {
+class DropDownButton extends StatelessWidget {
   final List<String> items;
   final String selectedItem;
   final void Function(String?)? onChanged;
 
-  const DropDownTriggersAlarm({
+  const DropDownButton({
     Key? key,
     required this.items,
     required this.selectedItem,
@@ -960,6 +954,7 @@ class DropDownTriggersAlarm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DropdownButton<String>(
+      borderRadius: BorderRadius.circular(kBorderRadius),
       value: selectedItem,
       onChanged: onChanged,
       items: items.map((String item) {

@@ -153,7 +153,7 @@ class _UserLocationState extends State<UserLocation> {
                     ),
                   },
                   initialCameraPosition: CameraPosition(
-                    zoom: 13,
+                    zoom: 12.5,
                     target: LatLng(
                       snapshot.data!.docs.singleWhere((element) =>
                           element.id == UserLocation.userUID)["latitude"],

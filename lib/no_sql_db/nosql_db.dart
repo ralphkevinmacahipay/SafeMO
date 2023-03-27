@@ -73,12 +73,16 @@ class ReportModel {
   String? uid;
   String? nameUser;
   String? time;
+  String? typeOfIncident;
+  String? headCount;
   String? description;
   String? scene;
 
   ReportModel({
     this.uid,
     this.nameUser,
+    this.typeOfIncident,
+    this.headCount,
     this.time,
     this.description,
     this.scene,
@@ -91,6 +95,8 @@ class ReportModel {
       nameUser: map['nameUser'],
       time: map['time'],
       description: map['description'],
+      typeOfIncident: map['typeOfIncident'],
+      headCount: map['headCount'],
       scene: map['scene'],
     );
   }
@@ -104,6 +110,8 @@ class ReportModel {
       "nameUser": nameUser,
       'time': time,
       "description": description,
+      "typeOfIncident": typeOfIncident,
+      "headCount": headCount,
       'scene': scene,
     };
   }

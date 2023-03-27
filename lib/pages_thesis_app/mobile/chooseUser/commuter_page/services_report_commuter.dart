@@ -8,8 +8,23 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as devtools show log;
 
 class ReportCommuterServices extends ChangeNotifier {
+  List<String> items = [
+    'Incident',
+    'Medical emergencies',
+    'Fires',
+    'Criminal activity',
+    'Accidents',
+    'Disasters',
+    'Suicidal threats',
+    'Animal attacks',
+    'Terrorism',
+    'Hazmat incidents'
+  ];
+
+  String selectedItem = 'Incident';
   String _description = '';
   String _scene = '';
+  String _headCOunt = '';
   // TODO : Initialization ********************
 
   int? _timeOfArrivalInit;
@@ -27,6 +42,9 @@ class ReportCommuterServices extends ChangeNotifier {
   Stream<QuerySnapshot<Map<String, dynamic>>>? _reportStream;
 
   // TODO : getter ********************
+  String get getHeadCount => _headCOunt;
+  List<String> get getListItems => items;
+  String get getSelectedItems => selectedItem;
   String get getScene => _scene;
   String get getDescription => _description;
   int get getInitTimeOfArrival => _timeOfArrivalInit!;
@@ -37,6 +55,15 @@ class ReportCommuterServices extends ChangeNotifier {
       _reportStream!;
 
   // TODO : setter ********************
+  setHeadCount(String item) {
+    _headCOunt = item;
+  }
+
+  setSelectedItem(String item) {
+    selectedItem = item;
+    notifyListeners();
+  }
+
   setDescription(String newVal) {
     _description = newVal;
   }
@@ -94,6 +121,8 @@ class ReportCommuterServices extends ChangeNotifier {
     caseUser.uid = getUser.uid;
     caseUser.nameUser = myName;
     caseUser.time = getTime;
+    caseUser.typeOfIncident = getSelectedItems;
+    caseUser.headCount = getHeadCount;
     caseUser.description = getDescription;
     caseUser.scene = getScene;
 

@@ -17,7 +17,7 @@ import '../../../../sound_image_code/sound_images_code.dart';
 import '../../../../utility/error_dialog.dart';
 import 'navigationa_drawer/navigation_drawer.dart';
 import 'services_homepage.dart'
-    show CountDownTimer, DropDownTriggersAlarm, LocationServiceHome;
+    show CountDownTimer, DropDownButton, LocationServiceHome;
 
 class CommuterPage extends StatefulWidget {
   const CommuterPage({super.key});
@@ -183,14 +183,17 @@ class _CommuterPageState extends State<CommuterPage> {
                                           textAlign: TextAlign.center,
                                           style: kPoppinsSemiBold.copyWith(
                                               fontSize: 20)),
-                                      DropDownTriggersAlarm(
-                                        onChanged: (itemDistance) {
-                                          servicesCommuter
-                                              .setItemDistance(itemDistance!);
-                                        },
-                                        selectedItem:
-                                            servicesCommuter.getItemDistance,
-                                        items: servicesCommuter.getListItem,
+                                      SizedBox(
+                                        width: 20,
+                                        child: DropDownButton(
+                                          onChanged: (itemDistance) {
+                                            servicesCommuter
+                                                .setItemDistance(itemDistance!);
+                                          },
+                                          selectedItem:
+                                              servicesCommuter.getItemDistance,
+                                          items: servicesCommuter.getListItem,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -246,7 +249,8 @@ class _CommuterPageState extends State<CommuterPage> {
                           // TODO: Count Down
                           Visibility(
                             visible: false, // TODO  TURN IT INTO FALSE
-                            child: servicesCommuter.getCountOn
+                            child: servicesCommuter.getCountOn &&
+                                    servicesCommuter.getTimeSec != null
                                 ? CountDownTimer(
                                     onAlarm: servicesCommuter.getAlarmON,
                                     kTime: servicesCommuter.getTimeSec!,

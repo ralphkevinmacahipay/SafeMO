@@ -68,11 +68,13 @@ class _MainBodyState extends State<MainBody> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const [
-                  SizedBox(width: 150, child: Text("Name")),
-                  SizedBox(width: 150, child: Text("Description")),
-                  SizedBox(width: 150, child: Text("Scene")),
-                  SizedBox(width: 150, child: Text("Time")),
-                  SizedBox(width: 150, child: Text("Action")),
+                  SizedBox(width: 100, child: Text("Name")),
+                  SizedBox(width: 100, child: Text("Description")),
+                  SizedBox(width: 100, child: Text("Type of Incident")),
+                  SizedBox(width: 100, child: Text("Headcount")),
+                  SizedBox(width: 100, child: Text("Scene")),
+                  SizedBox(width: 100, child: Text("Time")),
+                  SizedBox(width: 100, child: Text("Action")),
                 ],
               ),
             ),
@@ -104,6 +106,10 @@ class _MainBodyState extends State<MainBody> {
                                   margin: const EdgeInsets.only(
                                       bottom: 10, top: 10, left: 10),
                                   child: RowAdmin(
+                                      kHeadCount:
+                                          "${snapshot.data!.docs[index]['headCount']}",
+                                      kTypeOfIncident:
+                                          "${snapshot.data!.docs[index]['typeOfIncident']}",
                                       servicesHistory: servicesHistory,
                                       servicesRecord: servicesRecord,
                                       index: index,
@@ -141,6 +147,8 @@ class RowAdmin extends StatefulWidget {
   final int index;
   final String kName;
   final String kDescription;
+  final String kTypeOfIncident;
+  final String kHeadCount;
   final String kScene;
   final String kTime;
   final RecordServices servicesRecord;
@@ -151,6 +159,8 @@ class RowAdmin extends StatefulWidget {
       required this.snapshot,
       required this.kName,
       required this.kDescription,
+      required this.kTypeOfIncident,
+      required this.kHeadCount,
       required this.kScene,
       required this.kTime,
       required this.servicesRecord,
@@ -326,12 +336,13 @@ class _RowAdminState extends State<RowAdmin> {
 
   @override
   Widget build(BuildContext context) {
-    devtools.log(widget.kScene);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SizedBox(width: 150, child: Text(widget.kName)),
-        SizedBox(width: 150, child: Text(widget.kDescription)),
+        SizedBox(width: 100, child: Text(widget.kName)),
+        SizedBox(width: 100, child: Text(widget.kDescription)),
+        SizedBox(width: 100, child: Text(widget.kTypeOfIncident)),
+        SizedBox(width: 100, child: Text(widget.kHeadCount)),
         widget.kScene == "on the road"
             ? roadWidget(
                 context: context,
@@ -339,9 +350,9 @@ class _RowAdminState extends State<RowAdmin> {
                 snapshot: widget.snapshot,
                 servicesRecord: widget.servicesRecord)
             : imageWidget(index: widget.index, snapshot: widget.snapshot),
-        SizedBox(width: 150, child: Text(widget.kTime)),
+        SizedBox(width: 100, child: Text(widget.kTime)),
         SizedBox(
-            width: 150,
+            width: 100,
             child: ElevatedButton(
               onPressed: () {
                 widget.servicesHistory.setNameFields(

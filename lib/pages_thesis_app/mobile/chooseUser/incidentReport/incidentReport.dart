@@ -24,8 +24,12 @@ class IncidentReport extends StatefulWidget {
 
 class _IncidentReportState extends State<IncidentReport> {
   TextEditingController? dscController;
+  TextEditingController? headCountController;
   bool? isCapture;
-  String imgURL = "unable to capture", strTitle = "", dscStr = "";
+  String imgURL = "unable to capture",
+      strTitle = "",
+      dscStr = "",
+      headCount = '';
 
   ImagePicker imagePicker = ImagePicker();
 
@@ -35,12 +39,14 @@ class _IncidentReportState extends State<IncidentReport> {
     super.initState();
     isCapture ??= false;
     dscController ??= TextEditingController();
+    headCountController ??= TextEditingController();
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
     dscController!.dispose();
+    headCountController!.dispose();
     super.dispose();
   }
 
@@ -48,6 +54,7 @@ class _IncidentReportState extends State<IncidentReport> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       // drawer: const NavigationDrawer(),
       appBar: AppBar(
           title: Text(
@@ -59,11 +66,43 @@ class _IncidentReportState extends State<IncidentReport> {
       backgroundColor: kGreyBackGround,
       body: Consumer2<LocationServiceHome, ReportCommuterServices>(
         builder: (context, servicesLoc, servicesReport, child) {
-          // services.setTypeOfUser(UserTypeEnum.report);
+          // services.setTypeOfUser(UserTypeEnum.report);,
           return ListView(
             children: [
-              SizedBox(
-                height: SizeConfig.blockY! * 9.5,
+              Container(
+                decoration: const BoxDecoration(color: kWhite),
+                margin: EdgeInsets.symmetric(
+                    horizontal: SizeConfig.blockX! * 10,
+                    vertical: SizeConfig.blockY! * 2.75),
+                padding:
+                    EdgeInsets.symmetric(horizontal: SizeConfig.blockX! * 10),
+                child: DropDownButton(
+                  items: servicesReport.getListItems,
+                  selectedItem: servicesReport.getSelectedItems,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      servicesReport.setSelectedItem(newValue!);
+                    });
+                  },
+                ),
+              ),
+              Container(
+                decoration: const BoxDecoration(color: kWhite),
+                margin: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.blockX! * 10,
+                ),
+                padding:
+                    EdgeInsets.symmetric(horizontal: SizeConfig.blockX! * 10),
+                child: TextFormField(
+                  controller: headCountController,
+                  onSaved: (value) {
+                    headCountController!.text = value!;
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      hintText: "Number of Person Involved",
+                      border: OutlineInputBorder(borderSide: BorderSide.none)),
+                ),
               ),
               Center(
                 child: Text(
@@ -79,8 +118,8 @@ class _IncidentReportState extends State<IncidentReport> {
                 margin: EdgeInsets.symmetric(
                     horizontal: SizeConfig.blockX! * 10.167),
                 decoration: const BoxDecoration(color: kWhite),
-                height: SizeConfig.blockY! * 38.75,
-                width: SizeConfig.blockX! * 71.945,
+                height: SizeConfig.blockY! * 30.75,
+                width: SizeConfig.blockX! * 50.945,
                 child: TextFormField(
                     textInputAction: TextInputAction.next,
                     autofocus: false,
@@ -107,7 +146,7 @@ class _IncidentReportState extends State<IncidentReport> {
                             borderSide: BorderSide.none))),
               ),
               SizedBox(
-                height: SizeConfig.blockY! * 4.375,
+                height: SizeConfig.blockY! * 2.375,
               ),
               Center(
                 child: GestureDetector(
@@ -135,7 +174,7 @@ class _IncidentReportState extends State<IncidentReport> {
                 ),
               ),
               SizedBox(
-                height: SizeConfig.blockY! * 2,
+                height: SizeConfig.blockY! * 1,
               ),
               Center(
                   child: Text(
@@ -145,7 +184,7 @@ class _IncidentReportState extends State<IncidentReport> {
                 ),
               )),
               SizedBox(
-                height: SizeConfig.blockY! * 5,
+                height: SizeConfig.blockY! * 2.75,
               ),
               Center(
                 child: GestureDetector(
@@ -218,7 +257,7 @@ class _IncidentReportState extends State<IncidentReport> {
       QuickAlert.show(
         title: "",
         widget: Text(
-          "Empty Incident\nDescription ",
+          "Empty Short\nDescription or Number of Person",
           style: kPoppinsBold.copyWith(
             fontSize: SizeConfig.blockX! * 5.556,
           ),
@@ -237,12 +276,16 @@ class _IncidentReportState extends State<IncidentReport> {
         type: QuickAlertType.loading,
       );
       dscStr = dscController!.text;
+      headCount = headCountController!.text;
 
       servicesReport.setDescription(dscStr);
       servicesReport.setScene(imgURL);
+      servicesReport.setHeadCount(headCount);
       servicesReport.insertCaseReport();
       setState(() {
         dscController!.clear();
+        headCountController!.clear();
+        servicesReport.setSelectedItem("Incident");
         imgURL = "";
         dscStr = "";
         FocusScope.of(context).unfocus();
