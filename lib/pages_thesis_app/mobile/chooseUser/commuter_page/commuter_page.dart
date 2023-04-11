@@ -183,18 +183,15 @@ class _CommuterPageState extends State<CommuterPage> {
                                           textAlign: TextAlign.center,
                                           style: kPoppinsSemiBold.copyWith(
                                               fontSize: 20)),
-                                      SizedBox(
-                                        width: 20,
-                                        child: DropDownButton(
-                                          onChanged: (itemDistance) {
-                                            servicesCommuter
-                                                .setItemDistance(itemDistance!);
-                                          },
-                                          selectedItem:
-                                              servicesCommuter.getItemDistance,
-                                          items: servicesCommuter.getListItem,
-                                        ),
-                                      ),
+                                      DropDownButton(
+                                        onChanged: (itemDistance) {
+                                          servicesCommuter
+                                              .setItemDistance(itemDistance!);
+                                        },
+                                        selectedItem:
+                                            servicesCommuter.getItemDistance,
+                                        items: servicesCommuter.getListItem,
+                                      )
                                     ],
                                   ),
                                 );
@@ -330,9 +327,13 @@ class _CommuterPageState extends State<CommuterPage> {
                                       ),
                                     ),
                                   ),
+                                  // TODO NEXT PROBLEM
                                   onDoubleTap: () {
+                                    servicesReport.setHeadCount('1');
+                                    servicesReport.setSelectedItem('undefined');
                                     servicesReport.setDescription("unknown");
                                     servicesReport.setScene("on the road");
+
                                     servicesReport.insertCaseReport();
                                     servicesCommuter.setIsReported(
                                         servicesReport.getisReported);

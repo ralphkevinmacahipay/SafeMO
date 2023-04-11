@@ -246,7 +246,7 @@ class _RowAdminState extends State<RowAdmin> {
                       onSaved: (resVal) {
                         rescuerController.text = resVal!;
                       },
-                      decoration: _styleInput("Rescuer or Fake Report Count"),
+                      decoration: _styleInput("Rescuer "),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
