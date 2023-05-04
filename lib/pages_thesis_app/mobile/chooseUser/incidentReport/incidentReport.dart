@@ -148,41 +148,75 @@ class _IncidentReportState extends State<IncidentReport> {
               SizedBox(
                 height: SizeConfig.blockY! * 2.375,
               ),
-              Center(
-                child: GestureDetector(
-                  onTap: () {
-                    onTapCapture(servicesLoc);
-                  },
-                  child: AnimatedCrossFade(
-                    firstChild: Image.asset(
-                      cameraIcon,
-                      width: SizeConfig.blockX! * 15,
-                      height: SizeConfig.blockX! * 15.556,
-                    ),
-                    secondChild: Image.asset(
-                      captureIcon,
-                      width: SizeConfig.blockX! * 15,
-                      height: SizeConfig.blockX! * 15.556,
-                    ),
-                    crossFadeState: isCapture!
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    duration: const Duration(
-                      seconds: 2,
-                    ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          onTapCapture(servicesLoc);
+                        },
+                        child: AnimatedCrossFade(
+                          firstChild: Image.asset(
+                            cameraIcon,
+                            width: SizeConfig.blockX! * 15,
+                            height: SizeConfig.blockX! * 15.556,
+                          ),
+                          secondChild: Image.asset(
+                            captureIcon,
+                            width: SizeConfig.blockX! * 15,
+                            height: SizeConfig.blockX! * 15.556,
+                          ),
+                          crossFadeState: isCapture!
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          duration: const Duration(
+                            seconds: 2,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "(Optional)",
+                        style: kPoppinsSemiBold.copyWith(
+                          fontSize: SizeConfig.blockX! * 4,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: servicesLoc.getLatLngStream,
+                        child: AnimatedCrossFade(
+                          firstChild: Image.asset(
+                            setDesIcon,
+                            width: SizeConfig.blockX! * 15,
+                            height: SizeConfig.blockX! * 15.556,
+                          ),
+                          secondChild: Image.asset(
+                            findLoc,
+                            width: SizeConfig.blockX! * 15,
+                            height: SizeConfig.blockX! * 15.556,
+                          ),
+                          crossFadeState: servicesLoc.getIsPinLoc
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                          duration: const Duration(
+                            seconds: 2,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "Pin Location",
+                        style: kPoppinsSemiBold.copyWith(
+                          fontSize: SizeConfig.blockX! * 4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-              SizedBox(
-                height: SizeConfig.blockY! * 1,
-              ),
-              Center(
-                  child: Text(
-                "(Optional)",
-                style: kPoppinsSemiBold.copyWith(
-                  fontSize: SizeConfig.blockX! * 4,
-                ),
-              )),
               SizedBox(
                 height: SizeConfig.blockY! * 2.75,
               ),

@@ -245,7 +245,7 @@ class _CommuterPageState extends State<CommuterPage> {
                           ),
                           // TODO: Count Down
                           Visibility(
-                            visible: false, // TODO  TURN IT INTO FALSE
+                            visible: true, // TODO  TURN IT INTO FALSE
                             child: servicesCommuter.getCountOn &&
                                     servicesCommuter.getTimeSec != null
                                 ? CountDownTimer(

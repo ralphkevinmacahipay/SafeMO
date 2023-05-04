@@ -49,7 +49,7 @@ class LocationServiceHome extends ChangeNotifier {
   bool isHasPermissionBack = false;
   //Config of running background
   FlutterBackgroundAndroidConfig? _androidConfig;
-  bool isInit = false;
+  bool isInit = false, isPinLoc = false;
 
   Duration? _duration;
   int? _timeOfArrivalInit;
@@ -119,6 +119,8 @@ class LocationServiceHome extends ChangeNotifier {
   LocationServiceHome(this._context);
 
   //********************* getter : pang expose sa UI *********************
+
+  bool get getIsPinLoc => isPinLoc;
   double get getkDistanceInKM => kDistanceInKM!;
   int get getItemIntDistance => itemIntDistance!;
   List<String> get getListItem => itemList;
@@ -179,6 +181,11 @@ class LocationServiceHome extends ChangeNotifier {
   bool get getIsFirstTimeOpen => isFirstTimeOpen;
 
   // ********************* setter : pang set value *********************
+
+  setIsPinLoc(bool val) {
+    isPinLoc = val;
+    notifyListeners();
+  }
 
   String getOnlyString(String duration) {
     _typeOfTime = duration.split(' ')[1];
@@ -590,6 +597,7 @@ class LocationServiceHome extends ChangeNotifier {
   }
 
   getLatLngStream() async {
+    setIsPinLoc(true);
     User? user = _auth.currentUser;
     devtools.log("Get Lat Lang Stream dito ba");
     //  LocationData : Para makuha data ng location
